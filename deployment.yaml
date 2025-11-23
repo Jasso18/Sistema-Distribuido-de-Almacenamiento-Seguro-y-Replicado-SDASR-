@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage-server-deployment
+  labels:
+    app: file-storage
+spec:
+  replicas: 1  # Empezamos con 1 para probar fácil
+  selector:
+    matchLabels:
+      app: file-storage
+  template:
+    metadata:
+      labels:
+        app: file-storage
+    spec:
+      containers:
+      - name: storage-server-pod
+        image: file-storage-server:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 9000
+        env:
+        - name: AES_KEY
+          value: "BiZ0yWf5X2P3qRz7sJ9tV8bN1mK4lH6dG2xJ3cQ5vA8="
+        - name: INTERNAL_SERVICE_NAME
+          value: "storage-server-service"
